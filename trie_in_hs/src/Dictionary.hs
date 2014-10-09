@@ -8,7 +8,8 @@ import TreeStuff
 -- Code --
 
 -- | The name of the default dictionary.
-defaultName = "dictionary.txt"
+defaultName :: String
+defaultName = "../dictionaries/dictionary.txt"
 
 -- | Loading a dictionary from a file.
 loadDict :: FilePath -> IO [String]
