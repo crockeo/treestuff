@@ -90,7 +90,7 @@ void free_tree(int** root) {
 int main()
 {
     int** root = malloc(26 * sizeof(int*)); // heap
-    char* file_name = "dictionary.txt";
+    char* file_name = "../dictionaries/dictionary.txt";
 
     file_iterate_lines(file_name, root, &insert_word);
     file_iterate_lines(file_name, root, &search);
