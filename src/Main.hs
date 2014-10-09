@@ -1,20 +1,27 @@
 module Main where
 
---------------------
--- Global Imports --
-import Control.Monad
-
 -------------------
 -- Local Imports --
 import Dictionary
 import TreeStuff
 
+data Arrow a = Arrow { stepArrow :: (a -> (a, Arrow a)) }
+
+type CountPair = (Int, Int)
+
+incRight :: CountPair -> CountPair
+incRight (r, w) = (r + 1, w)
+
+incWrong :: CountPair -> CountPair
+incWrong (r, w) = (r, w + 1)
+
+incBool :: Bool -> CountPair -> CountPair
+incBool  True = incRight
+incBool False = incWrong
+
 main :: IO ()
 main = do
   strs <- loadDefaultDict
-  let strs'  = map (reverse) strs
-      strs'' = strs ++ strs'
   dict <- defaultDictTree
 
-  forM_ strs'' $ \s ->
-    print (s, findString dict s)
+  print $ foldl (flip incBool) (0, 0) $ map (findString dict) strs
