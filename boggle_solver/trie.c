@@ -5,44 +5,35 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 //////////
 // Code //
 
-// Calculating the index of a character.
-int char_index(char c) {
-	if (c < minChar || c > maxChar)
-		return -1;
-	return (int)(c - minChar);
-}
+// The minimum character for the alphabet range.
+const char minChar = 'a';
 
-// Inserting a single character, and returning the pointer to the inserted
-// Trie.
-Trie insert_char(Trie t, char c) {
-	int ci = char_index(c);
-	if (ci == -1)
-		return;
+// The maximum character for the alphabet range.
+const char maxChar = 'z';
 
-	if (t[ci] == NULL)
-		t[ci] = new_trie();
-	return t[ci];
+// Calculating the range of the characters.
+int calc_range() {
+	return (int)(maxChar - minChar);
 }
 
 // Allocating a new trie.
 Trie new_trie() {
-	Trie trie = malloc(charRange * sizeof(TriePointer));
-	memset(trie, 0, charRange * sizeof(TriePointer));
-	return trie;
+	return NULL;
 }
 
 // Recursively deleting all elements in a trie.
 void delete_tree(Trie t) {
-	printf("delete_tree is unimplemented.\n");
+
 }
 
 // Inserting a word into the trie.
 void insert_word(Trie t, char* word) {
-	printf("insert_word is unimplemented.\n");
+
 }
 
 // Checking if a string is a valid prefix within the tree.
