@@ -63,14 +63,32 @@ void Trie::insert_word(char* word) {
 
 // Checking if a string is a prefix.
 bool Trie::stringIsPrefix(char* word) {
-	// TODO: Implement stringIsPrefix
-	return false;
+	if (strlen(word) == 0)
+		return true;
+
+	int ci = calcCharIndex(word[0]);
+	if (ci == -1)
+		return false;
+
+	if (this->getChildren()[ci] == nullptr)
+		return false;
+
+	return this->getChildren()[ci] -> stringIsPrefix(word + 1);
 }
 
 // Checking if a string is a word.
-bool stringIsWord(char* word) {
-	// TODO: Implement stringIsWord
-	return false;
+bool Trie::stringIsWord(char* word) {
+	if (strlen(word) == 0)
+		return this->getIsWord();
+
+	int ci = calcCharIndex(word[0]);
+	if (ci == -1)
+		return false;
+
+	if (this->getChildren()[ci] == nullptr)
+		return false;
+
+	return this->getChildren()[ci] -> stringIsWord(word + 1);
 }
 
 // Getting the size of the trie.
