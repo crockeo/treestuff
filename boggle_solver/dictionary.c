@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#include "fileio.h"
+
 //////////
 // Code //
 
@@ -28,8 +30,8 @@ char** get_words() {
 		FILE* f = fopen(dictionary_path, "r");
 		if (f == NULL)
 			return NULL;
-
-		// TODO: Implement the rest of get_words()
+		// TODO: DO STUFF
+		fclose(f);
 	}
 
 	return words;
