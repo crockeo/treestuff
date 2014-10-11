@@ -3,6 +3,7 @@
 /////////////
 // Imports //
 #include <stdlib.h>
+#include <stdio.h>
 
 //////////
 // Code //
