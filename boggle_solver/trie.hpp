@@ -1,6 +1,9 @@
 #ifndef _TRIE_HPP_
 #define _TRIE_HPP_
 
+//////////
+// Code //
+
 // The minimum and maximum character in the range.
 extern const char minChar;
 extern const char maxChar;
