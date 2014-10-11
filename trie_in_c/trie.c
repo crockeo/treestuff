@@ -2,8 +2,8 @@
 #include <string.h>
 #include <stdlib.h>
 
-// A synonym for the Tree type (to make the code more self-documenting).
-typedef int** Tree;
+// A synonym for the trie_t type (to make the code more self-documenting).
+typedef int** trie_t;
 
 // Finding the equivalent index for a character.
 int char_index(char c) {
@@ -11,26 +11,26 @@ int char_index(char c) {
 }
 
 // Makes a new tree
-Tree allocate_tree() {
-    Tree root = malloc(26 * sizeof(int*));
+trie_t allocate_tree() {
+    trie_t root = malloc(26 * sizeof(int*));
     memset(root, 0, 26 * sizeof(int*));
     return root;
 }
 
 // (Possibly) inserts a tree at c of the current root
-Tree insert_char(Tree root, char c) {
+trie_t insert_char(trie_t root, char c) {
     int loc = char_index(c);
     if (root[loc] == 0)
         root[loc] = (int*) allocate_tree();
-    return (Tree) root[loc];
+    return (trie_t) root[loc];
 }
 
-int insert_word(Tree root, char* word) {
+int insert_word(trie_t root, char* word) {
     if (strlen(word) == 0) {
         return 0;
     }
 
-    Tree new_root = insert_char(root, word[0]);
+    trie_t new_root = insert_char(root, word[0]);
 
     // Recurse down, making word one letter less
     insert_word(new_root, word + 1);
@@ -38,7 +38,7 @@ int insert_word(Tree root, char* word) {
     return 0;
 }
 
-int search(Tree root, char* word) {
+int search(trie_t root, char* word) {
 
     if (root == 0) {
         return 0;
@@ -53,11 +53,11 @@ int search(Tree root, char* word) {
     }
 
     int loc = char_index(word[0]);
-    Tree new_root = (Tree) root[loc];
+    trie_t new_root = (trie_t) root[loc];
     return search(new_root, word + 1);
 }
 
-void file_iterate_lines(char* file_name, Tree root, int (*fn)(Tree, char*)) {
+void file_iterate_lines(char* file_name, trie_t root, int (*fn)(trie_t, char*)) {
        FILE * fp;
        char * line = NULL;
        size_t len = 0;
@@ -78,14 +78,14 @@ void file_iterate_lines(char* file_name, Tree root, int (*fn)(Tree, char*)) {
        return;
 }
 
-void free_tree(Tree root) {
+void free_tree(trie_t root) {
     int i;
     if (root == 0) {
         return;
     }
 
     for (i = 0; i < 26; i++) {
-        free_tree((Tree) root[i]);
+        free_tree((trie_t) root[i]);
     }
     free(*root);
     return;
@@ -93,7 +93,7 @@ void free_tree(Tree root) {
 
 int main()
 {
-    Tree root = malloc(26 * sizeof(int*)); // heap
+    trie_t root = malloc(26 * sizeof(int*)); // heap
     char* file_name = "../dictionaries/dictionary.txt";
 
     file_iterate_lines(file_name, root, &insert_word);
