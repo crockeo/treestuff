@@ -5,7 +5,6 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 //////////
 // Code //
@@ -67,8 +66,6 @@ void insert_word(Trie* t, char* word) {
 		return;
 	}
 
-	printf("%s\n", word);
-
 	Trie* nt = insert_char(t, word[0]);
 	if (nt == NULL)
 		return;
@@ -84,8 +81,6 @@ bool is_prefix(Trie* t, char* word) {
 	if (t == NULL)
 		return false;
 
-	printf("%s\n", word);
-
 	int char_index = calc_index(word[0]);
 	if (char_index == -1)
 		return false;
@@ -100,8 +95,6 @@ bool is_word(Trie* t, char* word) {
 
 	if (t == NULL)
 		return false;
-
-	printf("%s\n", word);
 
 	int char_index = calc_index(word[0]);
 	if (char_index == -1)
