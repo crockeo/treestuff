@@ -18,135 +18,94 @@ const char maxChar = 'z';
 
 // Calculating the range of the characters.
 int calc_range() {
-	return (int)(maxChar - minChar);
+	return 1 + (int)(maxChar - minChar);
+}
+
+// Calculating the index a character represents.
+int calc_index(char c) {
+	if (c < minChar || c > maxChar)
+		return -1;
+
+	return (int)(c - minChar);
 }
 
 // Allocating a new trie.
-Trie new_trie() {
-	return NULL;
+Trie* new_trie() {
+	Trie* t = (Trie*)malloc(sizeof(Trie));
+
+	t->is_word = false;
+	t->children = (Trie**)malloc(calc_range() * sizeof(Trie*));
+	memset(t->children, 0, calc_range() * sizeof(Trie*));
+
+	return t;
 }
 
 // Recursively deleting all elements in a trie.
-void delete_tree(Trie t) {
+void delete_trie(Trie* t) {
+	for (int i = 0; i < calc_range(); i++)
+		if (t->children[i] == NULL)
+			delete_trie(t->children[i]);
+	free(t);
+}
 
+// Inserting a char into the trie.
+Trie* insert_char(Trie* t, char c) {
+	int char_index = calc_index(c);
+	if (char_index == -1)
+		return NULL;
+
+	if (t->children[char_index] == NULL)
+		t->children[char_index] = new_trie();
+
+	return t->children[char_index];
 }
 
 // Inserting a word into the trie.
-void insert_word(Trie t, char* word) {
+void insert_word(Trie* t, char* word) {
+	if (strlen(word) == 0) {
+		t->is_word = true;
+		return;
+	}
 
+	printf("%s\n", word);
+
+	Trie* nt = insert_char(t, word[0]);
+	if (nt == NULL)
+		return;
+	
+	insert_word(nt, word + 1);
 }
 
 // Checking if a string is a valid prefix within the tree.
-bool is_prefix(char* word) {
-	return false;
+bool is_prefix(Trie* t, char* word) {
+	if (strlen(word) == 0)
+		return true;
+
+	if (t == NULL)
+		return false;
+
+	printf("%s\n", word);
+
+	int char_index = calc_index(word[0]);
+	if (char_index == -1)
+		return false;
+
+	return is_prefix(t->children[char_index], word + 1);
 }
 
-// Checking if a string is a complete word within the tree.
-bool is_word(char* word) {
-	return false;
+// Checking if a string is a valid word within the tree.
+bool is_word(Trie* t, char* word) {
+	if (strlen(word) == 0)
+		return t->is_word;
+
+	if (t == NULL)
+		return false;
+
+	printf("%s\n", word);
+
+	int char_index = calc_index(word[0]);
+	if (char_index == -1)
+		return false;
+
+	return is_word(t->children[char_index], word + 1);
 }
-
-/*#include <stdio.h>*/
-/*#include <string.h>*/
-/*#include <stdlib.h>*/
-
-/*// A synonym for the Tree type (to make the code more self-documenting).*/
-/*typedef int** Tree;*/
-
-/*// Finding the equivalent index for a character.*/
-/*int char_index(char c) {*/
-    /*return (int) (c - 'a');*/
-/*}*/
-
-/*// Makes a new tree*/
-/*Tree allocate_tree() {*/
-    /*Tree root = malloc(26 * sizeof(int*));*/
-    /*memset(root, 0, 26 * sizeof(int*));*/
-    /*return root;*/
-/*}*/
-
-/*// (Possibly) inserts a tree at c of the current root*/
-/*Tree insert_char(Tree root, char c) {*/
-    /*int loc = char_index(c);*/
-    /*if (root[loc] == 0)*/
-        /*root[loc] = (int*) allocate_tree();*/
-    /*return (Tree) root[loc];*/
-/*}*/
-
-/*int insert_word(Tree root, char* word) {*/
-    /*if (strlen(word) == 0) {*/
-        /*return 0;*/
-    /*}*/
-
-    /*Tree new_root = insert_char(root, word[0]);*/
-
-    /*// Recurse down, making word one letter less*/
-    /*insert_word(new_root, word + 1);*/
-
-    /*return 0;*/
-/*}*/
-
-/*int search(Tree root, char* word) {*/
-
-    /*if (root == 0) {*/
-        /*return 0;*/
-    /*}*/
-
-    /*if (strlen(word) == 0) {*/
-        /*return 1;*/
-    /*}*/
-    /*char c = word[0];*/
-    /*if (!(c >= 'a' && c <= 'z')) {*/
-        /*return 0;*/
-    /*}*/
-
-    /*int loc = char_index(word[0]);*/
-    /*Tree new_root = (Tree) root[loc];*/
-    /*return search(new_root, word + 1);*/
-/*}*/
-
-/*void file_iterate_lines(char* file_name, Tree root, int (*fn)(Tree, char*)) {*/
-       /*FILE * fp;*/
-       /*char * line = NULL;*/
-       /*size_t len = 0;*/
-       /*ssize_t read;*/
-
-       /*fp = fopen(file_name, "r");*/
-       /*if (fp == NULL)*/
-           /*exit(EXIT_FAILURE);*/
-
-       /*while ((read = getline(&line, &len, fp)) != -1) {*/
-           /*line[strlen(line) - 1] = '\0';*/
-           /*(*fn)(root, line);*/
-       /*}*/
-
-       /*fclose(fp);*/
-       /*if (line)*/
-           /*free(line);*/
-       /*return;*/
-/*}*/
-
-/*void free_tree(Tree root) {*/
-    /*int i;*/
-    /*if (root == 0) {*/
-        /*return;*/
-    /*}*/
-
-    /*for (i = 0; i < 26; i++) {*/
-        /*free_tree((Tree) root[i]);*/
-    /*}*/
-    /*free(*root);*/
-    /*return;*/
-/*}*/
-
-/*int main()*/
-/*{*/
-    /*Tree root = malloc(26 * sizeof(int*)); // heap*/
-    /*char* file_name = "../dictionaries/dictionary.txt";*/
-
-    /*file_iterate_lines(file_name, root, &insert_word);*/
-    /*file_iterate_lines(file_name, root, &search);*/
-
-    /*free_tree(root);*/
-    /*return 0;*/
-/*}*/
