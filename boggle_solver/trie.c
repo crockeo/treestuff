@@ -41,9 +41,13 @@ Trie* new_trie() {
 
 // Recursively deleting all elements in a trie.
 void delete_trie(Trie* t) {
+	if (t == NULL)
+		return;
+	
 	for (int i = 0; i < calc_range(); i++)
-		if (t->children[i] == NULL)
-			delete_trie(t->children[i]);
+		delete_trie(t->children[i]);
+
+	free(t->children);
 	free(t);
 }
 
