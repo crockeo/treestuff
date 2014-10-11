@@ -14,15 +14,22 @@
 char* double_length(char* str, int length) {
 	char* new_str = (char*)malloc(length * 2 * sizeof(char));
 	memset(new_str, '\0', length * 2 * sizeof(char));
-	strcpy(new_str, str);
+
+	for (int i = 0; i < length; i++)
+		new_str[i] = str[i];
+
 	free(str);
 	return new_str;
 }
 
 // Changing the size of a char* to its exact size.
-char* exact_size(char* str) {
-	char* new_str = (char*)malloc(strlen(str) * sizeof(char));
-	strcpy(new_str, str);
+char* exact_size(char* str, int pos) {
+	int length = pos + 1;
+
+	char* new_str = (char*)malloc(length * sizeof(char));
+	for (int i = 0; i < length; i++)
+		new_str[i] = str[i];
+
 	free(str);
 	return new_str;
 }
@@ -56,5 +63,5 @@ char* read_line(FILE* f) {
 		ic = fgetc(f);
 	}
 
-	return exact_size(word);
+	return exact_size(word, pos);
 }
