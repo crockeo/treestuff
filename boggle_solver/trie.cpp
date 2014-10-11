@@ -63,8 +63,6 @@ void Trie::insert_word(char* word) {
 	if (ci == -1)
 		return;
 
-	std::cout << word << "\n";
-
 	Trie* next = insert_char(c);
 	if (next == nullptr)
 		return;
