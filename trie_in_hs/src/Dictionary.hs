@@ -1,8 +1,6 @@
 module Dictionary where
-
--------------------
--- Local Imports --
-import TreeStuff
+import qualified Data.ByteString as B
+import qualified Data.ByteString.Char8 as BC
 
 ----------
 -- Code --
@@ -19,10 +17,10 @@ loadDict = fmap (lines) . readFile
 loadDefaultDict :: IO [String]
 loadDefaultDict = loadDict defaultName
 
--- | Making a dictionary tree.
-dictTree :: FilePath -> IO Tree
-dictTree = fmap (insertStrings emptyTree) . loadDict
+-- | Loading a dictionary from a file.
+loadByteStringDict :: FilePath -> IO [B.ByteString]
+loadByteStringDict = fmap (BC.lines) . B.readFile
 
 -- | Loading the default dictionary.
-defaultDictTree :: IO Tree
-defaultDictTree = dictTree defaultName
+loadDefaultByteStringDict :: IO [B.ByteString]
+loadDefaultByteStringDict = loadByteStringDict defaultName

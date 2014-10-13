@@ -4,6 +4,8 @@ module Main where
 -- Local Imports --
 import Dictionary
 import TreeStuff
+import qualified FastTrie as FT
+import qualified Data.Trie as T
 
 data Arrow a = Arrow { stepArrow :: (a -> (a, Arrow a)) }
 
@@ -21,7 +23,11 @@ incBool False = incWrong
 
 main :: IO ()
 main = do
-  strs <- loadDefaultDict
-  dict <- defaultDictTree
+  dicWords <- loadDefaultDict
+  let tree = makeTree dicWords
+  print $ foldl (flip incBool) (0, 0) $ map (findString tree) dicWords
 
-  print $ foldl (flip incBool) (0, 0) $ map (findString dict) strs
+  byteWords <- loadDefaultByteStringDict
+  let fastTree = FT.makeTree byteWords
+  print $ foldl (flip incBool) (0, 0) $ map (FT.findString fastTree) dicWords
+

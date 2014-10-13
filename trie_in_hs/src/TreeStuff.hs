@@ -3,6 +3,7 @@ module TreeStuff ( Tree ()
                  , insertChar
                  , insert
                  , insertStrings
+                 , makeTree
                  , findChar
                  , findString
                  ) where
@@ -78,6 +79,10 @@ insert t        (c:cs) =
 -- | Inserting a list of strings into a tree.
 insertStrings :: Tree -> [String] -> Tree
 insertStrings = foldl insert
+
+-- | Given a list of words, makes a tree from them
+makeTree :: [String] -> Tree
+makeTree = insertStrings emptyTree
 
 -- | Checking if a Char in a given Tree is valid.
 findChar :: Tree -> Char -> Bool
