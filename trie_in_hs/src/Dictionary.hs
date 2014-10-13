@@ -1,8 +1,5 @@
 module Dictionary where
 
--------------------
--- Local Imports --
-import TreeStuff
 
 ----------
 -- Code --
