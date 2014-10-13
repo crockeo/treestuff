@@ -19,9 +19,9 @@ incBool :: Bool -> CountPair -> CountPair
 incBool  True = incRight
 incBool False = incWrong
 
+--insertStrings :: Tree -> [String] -> Tree
 main :: IO ()
 main = do
-  strs <- loadDefaultDict
-  dict <- defaultDictTree
-
-  print $ foldl (flip incBool) (0, 0) $ map (findString dict) strs
+  words <- loadDefaultDict
+  let tree = insertStrings emptyTree words
+  print $ foldl (flip incBool) (0, 0) $ map (findString tree) words

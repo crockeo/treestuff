@@ -18,11 +18,3 @@ loadDict = fmap (lines) . readFile
 -- | Loading the default dictionary.
 loadDefaultDict :: IO [String]
 loadDefaultDict = loadDict defaultName
-
--- | Making a dictionary tree.
-dictTree :: FilePath -> IO Tree
-dictTree = fmap (insertStrings emptyTree) . loadDict
-
--- | Loading the default dictionary.
-defaultDictTree :: IO Tree
-defaultDictTree = dictTree defaultName
