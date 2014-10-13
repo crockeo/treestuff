@@ -16,6 +16,9 @@ class Array {
 		// Inserting a value to the end.
 		void append(T);
 
+		// Concatenating an array with this array.
+		void concatenate(Array<T>*);
+
 		// Seting an element in the array.
 		void set(int, T);
 

@@ -42,6 +42,13 @@ void Array<T>::append(T val) {
 	this->length++;
 }
 
+// Concatenating an array with this array.
+template <class T>
+void Array<T>::concatenate(Array<T>* array) {
+	for (int i = 0; i < array->get_length(); i++)
+		this->append(array->get(i));
+}
+
 // Seting an element in the array.
 template <class T>
 void Array<T>::set(int index, T val) {
