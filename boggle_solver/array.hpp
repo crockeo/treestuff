@@ -19,20 +19,14 @@ class Array {
 		// Seting an element in the array.
 		void set(int, T);
 
+		// Checking if the array contains a pointer.
+		bool contains_ptr(T*);
+
 		// Checking if the array contains a value.
 		bool contains(T);
 
-		// Popping the first value off of the array.
-		T pop_first();
-
-		// Peeking at the first value in the array.
-		T peek_first();
-
-		// Popping the last value off of the array.
-		T pop_last();
-
-		// Peeking at the last value in the array.
-		T peek_last();
+		// Getting a pointer to a single value from the array.
+		T* get_ptr(int);
 
 		// Getting a single value from the array.
 		T get(int);
@@ -51,7 +45,7 @@ class Array {
 		int length;
 
 		// The raw list of values in the array.
-		T* values;
+		T** values;
 
 		// Doubling the reserved memory of the array.
 		void double_size();
