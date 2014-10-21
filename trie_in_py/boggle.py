@@ -12,17 +12,23 @@ dictionary = '../dictionaries/dictionary.txt'
 
 words = {}
 trie = datrie.Trie(string.ascii_lowercase)
+first_letters = {}
 
 with open(dictionary, 'r') as f:
     for line in f.readlines():
-        words[line.strip()] = True
-        trie[unicode(line.strip())] = True
+        line = line.strip()
+        words[line] = True
+        trie[unicode(line)] = True
+        if len(line) >= 1:
+            first_letters[line[0]] = True
 
 def isPrefix(word):
-    if len(word) <= 1: # hack!
+    if len(word) == 0:
         return True
-    ret = unicode(word.strip()) in trie
-    return ret
+    # Hack! Need this because datrie doesn't properly search for single letters.
+    if len(word) == 1:
+        return word in first_letters
+    return unicode(word.strip()) in trie
 
 def isExact(word):
     return word in words
