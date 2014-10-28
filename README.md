@@ -48,9 +48,13 @@ First, for a language agnostic instruction, clone to repo:
 
 **Python**:
 
-I'm not sure on build instructions for Python. I didn't write the Python code
-and I'm not very experienced with it. I'll try to get the person who wrote it to
-make some build instructions.
+>$ cd trie_in_py
+>$ pip install -r requirements.txt
+>$ python trie.py
+This actually is just an example of how to use the "datrie" pip package.
+
+The boggle solver has a boggle board hardcoded in the source. To solve that board, just run:
+>$ python boggle.py
 
 **Haskell**:
 
